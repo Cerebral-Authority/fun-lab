@@ -59,7 +59,11 @@
       list-style: none;
     }
 
-    .item a {
+    .item {
+      position: relative;
+    }
+
+    .item .card-link {
       display: block;
       height: 100%;
       box-sizing: border-box;
@@ -72,8 +76,36 @@
       transition: border-color 0.15s ease;
     }
 
-    .item a:hover,
-    .item a:focus-visible { border-color: var(--accent); }
+    .item .card-link:hover,
+    .item .card-link:focus-visible { border-color: var(--accent); }
+
+    /* Sits over the card's top right corner; a sibling of the card link,
+       since links cannot nest */
+    .source-link {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      color: var(--dim);
+      transition: color 0.15s ease, background 0.15s ease;
+    }
+
+    .source-link:hover,
+    .source-link:focus-visible {
+      color: #fff;
+      background: var(--line);
+    }
+
+    .source-link svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
 
     .item h2 {
       font-size: 19px;
@@ -125,13 +157,17 @@
 
     <ul class="grid">
       <li class="item">
-        <a href="/scroll-catapult/">
+        <a class="card-link" href="/scroll-catapult/">
           <span class="tag">Mobile scrolling</span>
           <h2>Scroll Catapult</h2>
           <video class="preview" src="/scroll-catapult/preview.mp4" poster="/scroll-catapult/preview.jpg"
             width="600" height="900" autoplay muted loop playsinline preload="metadata"
             aria-label="Scroll Catapult on a phone: a finger holds the screen, pulls up to charge the scrollbar, and releases to launch the page to the bottom, where it detonates."></video>
           <p>Hold, aim, and launch the page. A full charge slams the end and detonates.</p>
+        </a>
+        <a class="source-link" href="https://github.com/Cerebral-Authority/fun-lab/tree/main/packages/scroll-catapult"
+          aria-label="Scroll Catapult source on GitHub" title="Source on GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.37A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg>
         </a>
       </li>
     </ul>
