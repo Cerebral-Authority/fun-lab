@@ -8,7 +8,8 @@
   "jsdelivr": "scroll-catapult.js",
   "files": [
     "scroll-catapult.js",
-    "scroll-catapult.d.ts"
+    "scroll-catapult.d.ts",
+    "CHANGELOG.md"
   ],
   "keywords": [
     "scroll",

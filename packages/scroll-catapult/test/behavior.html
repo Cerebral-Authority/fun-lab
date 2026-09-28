@@ -1,0 +1,125 @@
+<!doctype html>
+<!-- Behavior tests for Scroll Catapult. Run: npm test -- scroll-catapult -->
+<html><head><meta charset="utf-8">
+<style>html { scroll-behavior: smooth; } body { margin: 0; } .tall { height: 20000px; }</style>
+</head><body>
+<a id="link" href="#x">link</a>
+<div class="tall" id="blank"></div>
+<pre id="out"></pre>
+<!-- Headless Chrome in --dump-dom mode runs only one animation frame, so
+     frames are driven by a timer here. The library itself is unchanged. -->
+<script>
+  // Frame timestamps come from a fake clock advanced by __rafStep per frame,
+  // so a test can place a frame at an exact moment of the flight
+  let fakeNow = 0;
+  window.__rafStep = 16;
+  window.requestAnimationFrame = cb => setTimeout(() => { fakeNow += window.__rafStep; cb(fakeNow); }, 16);
+  window.cancelAnimationFrame = id => clearTimeout(id);
+</script>
+<script src="../scroll-catapult.js"></script>
+<script>
+(async function () {
+  const results = [];
+  const check = (name, ok) => results.push((ok ? 'PASS ' : 'FAIL ') + name);
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const html = document.documentElement;
+  const pe = (type, x, y, extra) => document.getElementById('blank').dispatchEvent(new PointerEvent(type, Object.assign({
+    bubbles: true, cancelable: true, composed: true, pointerId: 7, pointerType: 'touch', isPrimary: true, clientX: x, clientY: y, button: 0
+  }, extra || {})));
+
+  // Before init: nothing added
+  check('nothing injected before init', !document.querySelector('scroll-catapult'));
+
+  const inst = ScrollCatapult.init({ explosions: true });
+  const host = document.querySelector('scroll-catapult');
+  check('host element added', !!host);
+  check('uses shadow DOM', !!(host && host.shadowRoot && host.shadowRoot.querySelector('.track')));
+  check('no page-level ids leaked', !document.getElementById('scTrack'));
+  check('host aria-hidden', host.getAttribute('aria-hidden') === 'true');
+  check('body user-select untouched at rest', getComputedStyle(document.body).userSelect !== 'none');
+  check('page not locked at rest', !html.hasAttribute('data-scroll-catapult-active'));
+
+  // Context menu at rest is NOT prevented
+  const cm = new MouseEvent('contextmenu', { bubbles: true, cancelable: true });
+  document.getElementById('blank').dispatchEvent(cm);
+  check('context menu allowed at rest', !cm.defaultPrevented);
+
+  // Mouse ignored by default
+  pe('pointerdown', 200, 200, { pointerType: 'mouse' });
+  await wait(400);
+  check('mouse ignored by default', !host.shadowRoot.querySelector('.track').classList.contains('charging'));
+  pe('pointerup', 200, 200, { pointerType: 'mouse' });
+
+  // Touch hold arms the catapult and locks selection only during the gesture
+  pe('pointerdown', 200, 200);
+  check('lock applied during gesture', html.hasAttribute('data-scroll-catapult-active'));
+  check('selection disabled during gesture', getComputedStyle(document.body).userSelect === 'none');
+  await wait(400);
+  const track = host.shadowRoot.querySelector('.track');
+  check('touch hold arms (charging)', track.classList.contains('charging'));
+  const cm2 = new MouseEvent('contextmenu', { bubbles: true, cancelable: true });
+  document.getElementById('blank').dispatchEvent(cm2);
+  check('context menu blocked mid gesture', cm2.defaultPrevented);
+
+  // Count impact effects (fireball, ring, sparks, flash) added to the overlay
+  let fx = 0;
+  new MutationObserver(m => m.forEach(r => { fx += r.addedNodes.length; }))
+    .observe(host.shadowRoot, { childList: true });
+
+  // Pull up hard: full charge, fly down the page into the bottom
+  pe('pointermove', 200, -20); // past the full power draw (room above the press is 200px)
+  await wait(80);
+  // Regression: the frame before impact lands 0.3ms short of the bottom, so
+  // the page moves only a few px on the impact frame. Impact speed must come
+  // from the flight path, not that clamped movement, or the blast is skipped.
+  // Full power: target = 1.15 x maxScroll over 2100ms, eased 1 - (1 - p)^3.
+  const tHit = 2100 * (1 - Math.cbrt(1 - 1 / 1.15));
+  window.__rafStep = (tHit - 0.3) / 64;
+  pe('pointerup', 200, -20);
+  check('lock released on release', !html.hasAttribute('data-scroll-catapult-active'));
+  await wait(150);
+  check('scroll-behavior forced to auto during flight', html.style.scrollBehavior === 'auto');
+  await wait(2400);
+  check('page flew down', window.scrollY > 5000);
+  check('full charge detonates at the bottom', fx >= 10);
+  check('scroll-behavior restored after flight', html.style.scrollBehavior === '');
+
+  // Links are ignored
+  document.getElementById('link').dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, pointerId: 8, pointerType: 'touch', isPrimary: true, clientX: 200, clientY: 200 }));
+  check('link press does not start gesture', !html.hasAttribute('data-scroll-catapult-active'));
+  document.getElementById('link').dispatchEvent(new PointerEvent('pointerup', { bubbles: true, pointerId: 8, pointerType: 'touch', isPrimary: true }));
+
+  // Drift during hold cancels (normal scroll)
+  pe('pointerdown', 200, 200);
+  pe('pointermove', 200, 240);
+  await wait(400);
+  check('drift during hold cancels', !track.classList.contains('charging'));
+  pe('pointerup', 200, 240);
+
+  // disable / enable
+  inst.disable();
+  pe('pointerdown', 200, 200);
+  await wait(400);
+  check('disabled ignores gestures', !track.classList.contains('charging') && !inst.isEnabled());
+  pe('pointerup', 200, 200);
+  inst.enable();
+  check('enable restores', inst.isEnabled());
+
+  // Re-init replaces
+  const inst2 = ScrollCatapult.init();
+  check('re-init keeps a single host', document.querySelectorAll('scroll-catapult').length === 1);
+  check('old instance disabled after replace', !inst.isEnabled());
+
+  // destroy cleans up
+  inst2.destroy();
+  check('destroy removes host', !document.querySelector('scroll-catapult'));
+  check('destroy removes lock style', !document.getElementById('scroll-catapult-lock'));
+  pe('pointerdown', 200, 200);
+  check('no gesture after destroy', !html.hasAttribute('data-scroll-catapult-active'));
+  pe('pointerup', 200, 200);
+
+  document.getElementById('out').textContent = 'RESULTS\n' + results.join('\n') + '\nDONE';
+  document.title = 'done';
+})().catch(e => { document.getElementById('out').textContent = 'ERROR ' + e.stack; });
+</script>
+</body></html>
