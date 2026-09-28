@@ -1,5 +1,7 @@
 # Scroll Catapult
 
+<a href="https://fun-lab.cerebralauthority.com/scroll-catapult/"><img src="https://raw.githubusercontent.com/Cerebral-Authority/fun-lab/main/packages/scroll-catapult/demo/preview.gif" width="320" alt="Scroll Catapult on a phone: the scrollbar charges under a pulled finger, the page launches to the bottom and detonates"></a>
+
 Hold, aim, and launch the page. Scroll Catapult replaces "swipe, swipe, swipe" on long mobile pages with a slingshot: hold a blank spot, pull to aim, release to fly. A full charge slams into the end of the page and detonates.
 
 **Live demo:** https://fun-lab.cerebralauthority.com/scroll-catapult/
