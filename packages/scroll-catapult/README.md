@@ -25,11 +25,13 @@ Hold, aim, and launch the page. Scroll Catapult replaces "swipe, swipe, swipe" o
 Paste this before the closing `</body>` tag (in Webflow: Site settings, Custom code, Footer code):
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@cerebralauthority/scroll-catapult@0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@cerebralauthority/scroll-catapult@0.1.0/scroll-catapult.js"
+  integrity="sha384-xjTQNkVqPPghj6pQ7j1AJTaE0BGggIuvcQ28rcLP7uvLoz4f5uHtBMIxSyJ27mii"
+  crossorigin="anonymous"></script>
 <script>ScrollCatapult.init();</script>
 ```
 
-The `@0` pins you to the 0.x releases, so a future breaking version will not change your site without you choosing it.
+This loads one exact version, and the `integrity` fingerprint makes the browser refuse to run the file if a single byte of it ever changes. Your site only changes when you choose to upgrade by pasting a newer snippet from this page.
 
 ### npm (React, Next.js, Vue, Svelte, anything with a bundler)
 
