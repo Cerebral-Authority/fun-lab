@@ -1,0 +1,13 @@
+{
+  "name": "fun-lab",
+  "private": true,
+  "description": "Open source UX and UI experiments by Cerebral Authority.",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "node scripts/build-site.mjs",
+    "preview": "node scripts/build-site.mjs && python3 -m http.server 8080 --directory _site"
+  },
+  "license": "MIT"
+}

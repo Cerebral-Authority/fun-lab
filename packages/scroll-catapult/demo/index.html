@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scroll Catapult | Fun Lab by Cerebral Authority</title>
+  <meta name="description" content="Hold, aim, and launch the page. A free, open source, touch first scrolling gesture you can add to any website with one line.">
+  <link rel="canonical" href="https://fun-lab.cerebralauthority.com/scroll-catapult/">
+  <meta property="og:title" content="Scroll Catapult">
+  <meta property="og:description" content="Hold, aim, and launch the page. Free and open source.">
+  <meta property="og:url" content="https://fun-lab.cerebralauthority.com/scroll-catapult/">
+  <meta name="theme-color" content="#120b1f">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nova+Square&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #120b1f;
+      --surface: #1b132d;
+      --line: #2f244a;
+      --text: #e6e1f0;
+      --dim: #9a8fc0;
+      --accent: #8f6fff;
+      color-scheme: dark;
+    }
+
+    html {
+      background: var(--bg);
+      overscroll-behavior-y: none;
+    }
+
+    body {
+      font-family: 'Nova Square', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      overscroll-behavior-y: none;
+    }
+
+    a { color: var(--accent); }
+
+    .hero {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 20px 28px;
+    }
+
+    .crumb {
+      font-size: 13px;
+      margin: 0 0 20px;
+    }
+
+    .hero h1 {
+      font-size: 34px;
+      margin: 0 0 12px;
+      color: #fff;
+      font-weight: 400;
+    }
+
+    .hero p {
+      color: var(--dim);
+      font-size: 15px;
+      line-height: 1.6;
+      margin: 0 0 18px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px 18px;
+      font-size: 14px;
+      line-height: 1.7;
+      margin: 0 0 16px;
+    }
+
+    .panel b { color: var(--accent); font-weight: 400; }
+
+    .notice {
+      display: none;
+      border-color: #6b4d2a;
+      color: #f0c890;
+    }
+
+    pre {
+      margin: 8px 0 0;
+      padding: 12px;
+      background: #0d0817;
+      border-radius: 8px;
+      overflow-x: auto;
+      font: 12px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: var(--text);
+      -webkit-user-select: text;
+      user-select: text;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      font-size: 14px;
+    }
+
+    .card {
+      max-width: 720px;
+      margin: 20px auto;
+      min-height: 360px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 26px 24px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card .num {
+      font-size: 46px;
+      color: #3a2f5c;
+      line-height: 1;
+    }
+
+    .card h2 {
+      font-size: 20px;
+      margin: 0;
+      color: #fff;
+      font-weight: 400;
+    }
+
+    .card .depth {
+      font-size: 12px;
+      color: var(--dim);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .card p {
+      color: var(--dim);
+      font-size: 14px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .page-end {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 60px 20px 90px;
+      text-align: center;
+      color: var(--dim);
+      font-size: 15px;
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding-top: 36px; }
+      .hero h1 { font-size: 26px; }
+      .card { margin: 14px 16px; min-height: 320px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <p class="crumb"><a href="/">Fun Lab</a> / Scroll Catapult</p>
+    <h1>Scroll Catapult</h1>
+    <p>Hold, aim, and launch the page. This page is intentionally very tall so there is real distance to fly across.</p>
+
+    <div class="panel notice" id="reducedMotion">
+      Your device has reduced motion turned on, so the catapult is switched off here. That is the library respecting your setting.
+      Turn off reduced motion in your system settings to try it.
+    </div>
+
+    <div class="panel">
+      <b>1.</b> Hold any blank spot for a third of a second. The scrollbar appears.<br>
+      <b>2.</b> Keep holding to build power, or pull to aim: down flies up, up flies down. Pink fills toward where you will fly.<br>
+      <b>3.</b> Release to launch. A full charge slams the end of the page and detonates. Tap while flying to stop.<br>
+      On a computer, click and hold works here too. On your own site it is touch only unless you turn mouse on.
+    </div>
+
+    <div class="panel" data-catapult-ignore>
+      <b>Add it to your site</b> by pasting this before <code>&lt;/body&gt;</code>:
+      <pre>&lt;script src="https://cdn.jsdelivr.net/npm/@cerebralauthority/scroll-catapult@0"&gt;&lt;/script&gt;
+&lt;script&gt;ScrollCatapult.init();&lt;/script&gt;</pre>
+    </div>
+
+    <nav class="links">
+      <a href="https://github.com/Cerebral-Authority/fun-lab/tree/main/packages/scroll-catapult">Docs and source on GitHub</a>
+      <a href="https://www.npmjs.com/package/@cerebralauthority/scroll-catapult">npm package</a>
+      <a href="https://cerebralauthority.com">Cerebral Authority</a>
+    </nav>
+  </header>
+
+  <main id="content"></main>
+
+  <footer class="page-end">You reached the bottom of the runway. Catapult back up.</footer>
+
+  <script src="./scroll-catapult.js"></script>
+  <script>
+    (function () {
+      const topics = [
+        'Signal', 'Drift', 'Momentum', 'Apogee', 'Ballast', 'Tension', 'Recoil', 'Vector',
+        'Payload', 'Trajectory', 'Altitude', 'Freefall', 'Thrust', 'Orbit', 'Gravity', 'Terminal'
+      ];
+      const SECTIONS = 40;
+      let html = '';
+      for (let i = 1; i <= SECTIONS; i++) {
+        const pct = Math.round((i / SECTIONS) * 100);
+        html += '<section class="card">' +
+          '<div class="num">' + String(i).padStart(2, '0') + '</div>' +
+          '<h2>' + topics[(i - 1) % topics.length] + '</h2>' +
+          '<div class="depth">' + pct + '% down the page</div>' +
+          '<p>Waypoint so the catapult has somewhere to land. Hold a blank spot, ' +
+          'load the sling, and let go. The harder the pull, the farther the page flies.</p>' +
+          '</section>';
+      }
+      document.getElementById('content').innerHTML = html;
+
+      // The demo lets desktop visitors try it with a mouse; the library
+      // default is touch and pen only
+      ScrollCatapult.init({ pointerTypes: ['touch', 'pen', 'mouse'] });
+
+      const rm = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const notice = document.getElementById('reducedMotion');
+      function sync() { notice.style.display = rm.matches ? 'block' : 'none'; }
+      sync();
+      rm.addEventListener('change', sync);
+    })();
+  </script>
+</body>
+</html>

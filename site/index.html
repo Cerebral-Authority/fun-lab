@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fun Lab | Cerebral Authority</title>
+  <meta name="description" content="Free, open source UX and UI experiments from Cerebral Authority. Drop them into any website with one line.">
+  <link rel="canonical" href="https://fun-lab.cerebralauthority.com/">
+  <meta name="theme-color" content="#120b1f">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nova+Square&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #120b1f;
+      --surface: #1b132d;
+      --line: #2f244a;
+      --text: #e6e1f0;
+      --dim: #9a8fc0;
+      --accent: #8f6fff;
+      color-scheme: dark;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Nova Square', system-ui, sans-serif;
+    }
+
+    a { color: var(--accent); }
+
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 16px 80px;
+    }
+
+    h1 {
+      font-size: 34px;
+      font-weight: 400;
+      color: #fff;
+      margin: 0 0 12px;
+    }
+
+    .lede {
+      color: var(--dim);
+      font-size: 15px;
+      line-height: 1.6;
+      margin: 0 0 32px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .item a {
+      display: block;
+      height: 100%;
+      box-sizing: border-box;
+      padding: 20px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.15s ease;
+    }
+
+    .item a:hover,
+    .item a:focus-visible { border-color: var(--accent); }
+
+    .item h2 {
+      font-size: 19px;
+      font-weight: 400;
+      color: #fff;
+      margin: 0 0 8px;
+    }
+
+    .item p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--dim);
+      margin: 0;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    footer {
+      margin-top: 48px;
+      font-size: 14px;
+      color: var(--dim);
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Fun Lab</h1>
+    <p class="lede">Free, open source UX and UI experiments. Try each one here, then add it to your own site with a single line of code.</p>
+
+    <ul class="grid">
+      <li class="item">
+        <a href="/scroll-catapult/">
+          <span class="tag">Mobile scrolling</span>
+          <h2>Scroll Catapult</h2>
+          <p>Hold, aim, and launch the page. A full charge slams the end and detonates.</p>
+        </a>
+      </li>
+    </ul>
+
+    <footer>
+      MIT licensed. Source on <a href="https://github.com/Cerebral-Authority/fun-lab">GitHub</a>.<br>
+      Made by <a href="https://cerebralauthority.com">Cerebral Authority</a>.
+    </footer>
+  </div>
+</body>
+</html>

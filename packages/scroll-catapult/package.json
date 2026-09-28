@@ -1,0 +1,37 @@
+{
+  "name": "@cerebralauthority/scroll-catapult",
+  "version": "0.1.0",
+  "description": "Hold, aim, and launch the page. A touch first scrolling gesture with a charging scrollbar and impact effects.",
+  "main": "scroll-catapult.js",
+  "types": "scroll-catapult.d.ts",
+  "unpkg": "scroll-catapult.js",
+  "jsdelivr": "scroll-catapult.js",
+  "files": [
+    "scroll-catapult.js",
+    "scroll-catapult.d.ts"
+  ],
+  "keywords": [
+    "scroll",
+    "scrollbar",
+    "gesture",
+    "mobile",
+    "touch",
+    "animation",
+    "ui",
+    "ux"
+  ],
+  "author": "Cerebral Authority (https://cerebralauthority.com)",
+  "license": "MIT",
+  "homepage": "https://fun-lab.cerebralauthority.com/scroll-catapult/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cerebral-Authority/fun-lab.git",
+    "directory": "packages/scroll-catapult"
+  },
+  "bugs": {
+    "url": "https://github.com/Cerebral-Authority/fun-lab/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
