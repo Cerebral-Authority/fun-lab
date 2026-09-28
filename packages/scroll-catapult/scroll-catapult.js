@@ -175,7 +175,7 @@
     let flingFrom = 0;
     let flingTarget = 0;
     let flingDur = 0;
-    let flingPrevY = 0;
+    let flingPrevDesired = 0; // unclamped path position, for true impact speed
     let flingPrevT = 0;
     let flingWhite = 0; // knob whiteness carried out of the release
     let savedScrollBehavior = null;
@@ -541,7 +541,7 @@
       flingTarget = flingFrom + dir * distance;
       flingDur = o.flightMinMs + power * (o.flightMaxMs - o.flightMinMs);
       flingStartT = 0;
-      flingPrevY = flingFrom;
+      flingPrevDesired = flingFrom;
       flingPrevT = 0;
 
       flingWhite = 0.35 + 0.65 * power;
@@ -574,7 +574,9 @@
       const clamped = Math.min(Math.max(desired, 0), maxScroll);
 
       const dt = Math.max((t - flingPrevT) / 1000, 0.001);
-      const speed = Math.abs(clamped - flingPrevY) / dt;
+      // Speed along the flight path, not the clamped scroll: on the frame that
+      // reaches an end, the page may only move a few px before hitting it
+      const speed = Math.abs(desired - flingPrevDesired) / dt;
 
       window.scrollTo(window.scrollX, clamped);
       updateThumb();
@@ -593,7 +595,7 @@
         return;
       }
 
-      flingPrevY = clamped;
+      flingPrevDesired = desired;
       flingPrevT = t;
 
       if (p >= 1) {

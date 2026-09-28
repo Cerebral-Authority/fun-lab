@@ -89,6 +89,18 @@
       margin: 0;
     }
 
+    .preview {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2 / 3;
+      margin: 4px 0 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      object-fit: cover;
+    }
+
     .tag {
       display: inline-block;
       font-size: 11px;
@@ -116,6 +128,9 @@
         <a href="/scroll-catapult/">
           <span class="tag">Mobile scrolling</span>
           <h2>Scroll Catapult</h2>
+          <video class="preview" src="/scroll-catapult/preview.mp4" poster="/scroll-catapult/preview.jpg"
+            width="600" height="900" autoplay muted loop playsinline preload="metadata"
+            aria-label="Scroll Catapult on a phone: a finger holds the screen, pulls up to charge the scrollbar, and releases to launch the page to the bottom, where it detonates."></video>
           <p>Hold, aim, and launch the page. A full charge slams the end and detonates.</p>
         </a>
       </li>
@@ -126,5 +141,14 @@
       Made by <a href="https://cerebralauthority.com">Cerebral Authority</a>.
     </footer>
   </div>
+  <script>
+    // Visitors who ask for less motion get the still poster instead of a looping clip
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('video.preview').forEach(function (v) {
+        v.removeAttribute('autoplay');
+        v.pause();
+      });
+    }
+  </script>
 </body>
 </html>
